@@ -19,10 +19,10 @@ const int echoPin = D0;
 
 // defines variables
 const char* ssid = "OnePlus 6T"; // Insert SSID for the accesspoint
-const char* password = "12345679"; // Insert Wifi key/password
+const char* password = ""; // Insert Wifi key/password
 WiFiClient client;
 unsigned long channelID = 673886;
-const char * myWriteAPIKey = "QT7PQPVJDV6RQQKK";
+const char * myWriteAPIKey = "";
 const char * server = "api.thingspeak.com";
 const int postingInterval = 20 * 1000;
 
