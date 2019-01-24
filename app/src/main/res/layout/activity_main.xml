@@ -5,21 +5,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/background_gradiant">
 
     <Button
         android:id="@+id/b1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="8dp"
-        android:text="Get last value"
+        android:background="@drawable/custom_button"
+        android:text="Check parkings"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:background="@drawable/custom_textview"
         android:id="@+id/t1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,6 +33,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:text="Value"
+        android:textColor="@color/textColor"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,12 +48,15 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/custom_textview"
         android:text="Info"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/t1" />
 
     <TextView
+        android:background="@drawable/custom_textview"
         android:id="@+id/indicator"
         android:layout_width="200dp"
         android:layout_height="100dp"
@@ -58,6 +66,7 @@
         android:layout_marginBottom="8dp"
         android:paddingTop="38dp"
         android:text="Indicator"
+        android:textColor="@color/textColor"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

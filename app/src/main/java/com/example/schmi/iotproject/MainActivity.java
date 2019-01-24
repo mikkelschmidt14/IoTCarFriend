@@ -14,12 +14,11 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,11 +35,10 @@ public class MainActivity extends AppCompatActivity {
         b1 = (Button) findViewById(R.id.b1);
         indicator = (TextView) findViewById(R.id.indicator);
 
-        indicator.setText("");
-        indicator.setBackgroundColor(Color.parseColor("#00ff00"));
-        t2.setText("");
+        indicator.setText("Indicator");
+        t2.setText("Info");
 
-
+        //Executes the AsyncTask when the button is pushed
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,10 +52,12 @@ public class MainActivity extends AppCompatActivity {
     class getDataFromThingSpeak extends AsyncTask<Void, Void, String> {
 
         protected void onPreExecute() {
-            t2.setText("Getting data from ThingSpeak\nPlease Wait...");
+            t2.setText("Getting data from ThingSpeak. Please Wait...");
         }
 
         protected String doInBackground(Void... voids) {
+
+            //Receives a JSON tring from the URL
             try {
                 URL url = new URL("https://api.thingspeak.com/channels/673886/feeds.json?api_key=RO4HNU8HPCYBXXVD&results=2");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
+            //Getting the last value from the JSON string from field4
             try {
 
                 JSONObject json = new JSONObject(response);
@@ -110,12 +111,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkVal(String val){
 
+        //Checks if the value is legal
         if(val.equals("Illigal parking")){
-            indicator.setText("Illigal parkings detected");
-            indicator.setBackgroundColor(Color.parseColor("#ff0000"));
+            indicator.setText("Illegal parkings detected");
+            indicator.setBackgroundResource(R.drawable.red_textview);
         } else {
-            indicator.setText("No illigal parkings detected");
-            indicator.setBackgroundColor(Color.parseColor("#00ff00"));
+            indicator.setText("No illegal parkings detected");
+            indicator.setBackgroundResource(R.drawable.green_textview);
 
         }
 
