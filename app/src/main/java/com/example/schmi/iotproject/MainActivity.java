@@ -1,6 +1,5 @@
 package com.example.schmi.iotproject;
 
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
