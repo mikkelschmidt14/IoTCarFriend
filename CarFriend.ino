@@ -2,8 +2,8 @@
    Measure distance and sends it to ThingSpeak via LoRaWAN.
    Connect Ultra Sonic Sensor (HC-SR04) as follows:
         Vcc to 5v
-        Trig to 1
-        Echo to 0
+        Trig to 6
+        Echo to 5
         Gnd to gnd
     Connect RN2483 LoRa Module as follows:
         Vin to 3.3v
@@ -25,8 +25,8 @@
 int uniqueID = 0;
 
 //Ultrasonic sensor definitions. Pins:
-const int trigPin = 1;
-const int echoPin = 0;
+const int trigPin = 6;
+const int echoPin = 5;
 const int range = 15;
 long duration;
 int distance;
@@ -36,9 +36,9 @@ boolean isParked = false;
 SoftwareSerial myLoraSerial(12,13);
 rn2xx3 myLora(myLoraSerial);
 //Keys needed to register with gateway.
-const char *devAddr = "A97C20E3";
-const char *nwkSKey = "D9C37E0CE353095E59CA0A708779BD7C";
-const char *appSKey = "339598331941505DE99A8FB6E71385C5";
+const char *devAddr = "003F0F4F";
+const char *nwkSKey = "CBC3474E59551F1F13AF184274CDFCEE";
+const char *appSKey = "59ACCEF13F4C155C5B9338F9BBDA2915";
 
 //RFID Definitions
 SoftwareSerial SoftSerial(10, 11); //rx,tx
@@ -50,7 +50,7 @@ void setup() {
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
   Serial.begin(57600); // Starts the serial communication
-  SoftSerial.begin(57600);
+  SoftSerial.begin(9600);
 
   delay(100);
   
@@ -77,31 +77,42 @@ void loop() {
 
     //Reads input from SoftSerial(the RFID tag)
     count = 0;
+    int timeOut = 10;
+    SoftSerial.listen();
+    //Wait for an RFID read for a bit.
+    while (!SoftSerial.available() && timeOut > 0){
+      timeOut--;
+      delay(1000);
+      Serial.println("waiting for RFID read.");
+    }
     while (SoftSerial.available() && count <= 63) {
       buffer[count] = SoftSerial.read();
       count++;
     }
-    buffer[count] = '\0';
     
+    
+    buffer[count] = '\0';
     String hashed = hashRFID(buffer, count);
     Serial.print("HASH is:"); Serial.println(hashed);
 
     //Transmit hash to lora if valid RFID is read.
-
+    myLoraSerial.listen();
     if (hashed.length() > 2) {
       Serial.println("Transmitting hash on LoRa.");
+      delay(500);
       myLora.txUncnf(hashed);
-    } else {
+      delay(500);
+    } else{
       Serial.println("Sensor blocked without RFID read.");
-      myLora.txUncnf("Illegal parking");
+      myLora.txUncnf("0123456789012345678901234");
     }
 
   
-  } else if (distance > range + 10 && isParked){ //+10 added to avoid hysteresis.
-    isParked == false;
+  } else if (distance > range + 10){ //+10 added to avoid hysteresis.
+    isParked = false;
   }
 
-  delay(1000);
+  delay(5000);
 
 }
 
